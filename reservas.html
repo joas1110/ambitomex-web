@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Panel Admin - Reservas</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 2rem;
+      background-color: #f7f7f7;
+    }
+
+    form {
+      max-width: 400px;
+      margin: auto;
+      background-color: #fff;
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    input, button {
+      width: 100%;
+      margin-top: 1rem;
+      padding: 0.75rem;
+      font-size: 1rem;
+    }
+
+    #mensaje {
+      margin-top: 1rem;
+      text-align: center;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>Panel de Administración</h1>
+
+  <form id="adminForm">
+    <label for="fecha">Fecha:</label>
+    <input type="date" id="fecha" required>
+
+    <label for="hora">Hora:</label>
+    <input type="time" id="hora" required>
+
+    <button type="submit">Agregar Reserva</button>
+  </form>
+
+  <p id="mensaje"></p>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js";
+    import {
+      getFirestore,
+      collection,
+      addDoc
+    } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDNcfScAnhfHXIzoc0ks9kQ_1bn8gfGmvY",
+      authDomain: "ambitomexreservas.firebaseapp.com",
+      projectId: "ambitomexreservas",
+      storageBucket: "ambitomexreservas.firebasestorage.app",
+      messagingSenderId: "914518869349",
+      appId: "1:914518869349:web:1b85ceca2481cb24e84d8c",
+      measurementId: "G-X6ZXLY5BB4"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const form = document.getElementById("adminForm");
+    const mensaje = document.getElementById("mensaje");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const fecha = document.getElementById("fecha").value;
+      const hora = document.getElementById("hora").value;
+
+      if (!fecha || !hora) {
+        mensaje.textContent = "Por favor completá ambos campos.";
+        mensaje.style.color = "red";
+        return;
+      }
+
+      try {
+        await addDoc(collection(db, "reservas"), { fecha, hora });
+        mensaje.textContent = "✅ ¡Reserva agendada correctamente!";
+        mensaje.style.color = "green";
+        form.reset();
+      } catch (error) {
+        console.error("Error al guardar reserva:", error);
+        mensaje.textContent = "❌ Hubo un error al guardar.";
+        mensaje.style.color = "red";
+      }
+    });
+  </script>
+</body>
+</html>
