@@ -1,0 +1,417 @@
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  line-height: 1.6;
+  background-color: #fff;
+  color: #000;
+}
+
+/* HEADER */
+header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: white;
+  border-bottom: 1px solid #ddd;
+  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.navbar {
+  max-width: 1200px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+}
+
+.logo {
+  height: 50px;
+  object-fit: contain;
+}
+
+.nav-menu {
+  list-style: none;
+  display: flex;
+  gap: 30px;
+}
+
+.nav-menu li a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 600;
+  font-size: 16px;
+  padding: 6px 10px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.nav-menu li a:hover {
+  background-color: #f0f0f0;
+  color: #00a859;
+}
+
+.nav-menu li a.active {
+  color: #00a859;
+  border-bottom: 2px solid #00a859;
+}
+
+/* HERO */
+.hero {
+  background: url("https://www.ambitomex.com.mx/img/bg-main.jpg") no-repeat center center/cover;
+  height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: white;
+  position: relative;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 700px;
+  padding: 20px;
+}
+
+.hero-content h1 {
+  font-size: 40px;
+  margin-bottom: 20px;
+}
+
+.hero-content p {
+  font-size: 18px;
+  margin-bottom: 30px;
+}
+
+.btn,
+.btn-cta,
+.btn-evento {
+  display: inline-block;
+  background-color: #00a859;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover,
+.btn-cta:hover,
+.btn-evento:hover {
+  background-color: #008c47;
+}
+
+/* PLANES */
+.planes-section {
+  padding: 60px 20px;
+  background-color: #f9f9f9;
+  text-align: center;
+}
+
+.planes-section h2 {
+  font-size: 32px;
+  margin-bottom: 20px;
+}
+
+.planes-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.plan-card {
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 30px 20px;
+  width: 280px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  transition: transform 0.2s;
+}
+
+.plan-card:hover {
+  transform: scale(1.03);
+}
+
+.plan-card h3 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.plan-card p {
+  font-size: 16px;
+  color: #555;
+}
+
+/* EVENTO */
+.evento-section {
+  background-color: #fff;
+  padding: 60px 20px;
+}
+
+.evento-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1000px;
+  margin: 0 auto;
+  gap: 40px;
+}
+
+.evento-texto {
+  flex: 1;
+  min-width: 280px;
+}
+
+.evento-texto h2 {
+  font-size: 32px;
+  margin-bottom: 20px;
+}
+
+.evento-texto p {
+  font-size: 16px;
+  margin-bottom: 20px;
+  color: #444;
+}
+
+.evento-imagen {
+  flex: 1;
+  min-width: 280px;
+  text-align: center;
+}
+
+.evento-imagen img,
+.imagen-evento {
+  width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* BENEFICIOS */
+.benefits-section {
+  padding: 50px 20px;
+  text-align: center;
+  background-color: #f7f7f7;
+}
+
+.benefits-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.benefit-card {
+  background-color: white;
+  padding: 20px;
+  width: 280px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.benefit-card img {
+  width: 32px;
+  height: 32px;
+}
+
+/* FORMULARIO DE RESERVA */
+#reserva-form {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-width: 400px;
+  margin-inline: auto;
+}
+
+#fecha-entrenamiento {
+  padding: 10px;
+  font-size: 16px;
+}
+
+#mensaje-fecha {
+  font-weight: bold;
+  color: #d63031;
+}
+
+#mensaje-fecha.disponible {
+  color: #00a859;
+}
+
+#btn-reservar {
+  background-color: #00a859;
+  color: white;
+  padding: 10px 20px;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#btn-reservar:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.fechas-bloqueadas {
+  margin-top: 30px;
+  text-align: left;
+  max-width: 400px;
+  margin-inline: auto;
+}
+
+.fechas-bloqueadas ul {
+  list-style: disc;
+  margin-left: 20px;
+}
+
+/* FOOTER */
+.footer {
+  background-color: #111;
+  color: #fff;
+  text-align: center;
+  padding: 30px 20px;
+  margin-top: 60px;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 40px;
+  align-items: flex-start;
+}
+
+.footer-info {
+  flex: 1;
+  min-width: 250px;
+  text-align: left;
+}
+
+.footer-info h4 {
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+
+.footer-info p {
+  font-size: 16px;
+  margin-bottom: 15px;
+}
+
+.footer-copy {
+  margin-top: 30px;
+  font-size: 14px;
+  color: #e0e0e0;
+}
+
+.social-icons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.social-icons img {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+  filter: invert(1);
+  transition: transform 0.3s ease;
+}
+
+.social-icons img:hover {
+  transform: scale(1.1);
+}
+
+/* UTILIDADES Y ESTÉTICA GENERAL */
+.section,
+.planes-section,
+.evento-section,
+.benefits-section {
+  scroll-margin-top: 80px;
+}
+
+.section h2,
+.planes-section h2,
+.evento-section h2,
+.benefits-section h2 {
+  font-size: 2rem;
+  color: #111;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid #00a859;
+  display: inline-block;
+  padding-bottom: 0.3rem;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px 20px;
+  }
+
+  .nav-menu {
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    padding-top: 10px;
+  }
+
+  .hero-content h1 {
+    font-size: 28px;
+  }
+
+  .hero-content p {
+    font-size: 16px;
+  }
+
+  .planes-container,
+  .benefits-container,
+  .evento-container,
+  .footer-container {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .plan-card,
+  .benefit-card {
+    width: 90%;
+  }
+
+  .footer-info {
+    text-align: center;
+  }
+}
