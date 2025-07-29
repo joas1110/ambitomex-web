@@ -415,3 +415,34 @@ header {
     text-align: center;
   }
 }
+
+.section-reserva {
+  text-align: center;
+  padding: 4rem 2rem;
+  background-color: #f5f5f5;
+}
+
+.reserva-container h2 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.reserva-container p {
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+  color: #444;
+}
+
+.btn-reserva {
+  background-color: #007bff;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.btn-reserva:hover {
+  background-color: #0056b3;
+}

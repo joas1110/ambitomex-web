@@ -3,150 +3,148 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Reservas ÁmbitoMex</title>
+  <title>Espacio Multiusos 5 y 10</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
     body {
-      font-family: sans-serif;
-      padding: 2rem;
-      background-color: #f0f0f0;
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f9f9f9;
+      color: #333;
     }
 
-    form {
-      background-color: #fff;
-      padding: 1.5rem;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      max-width: 400px;
-      margin: auto;
+    header {
+      background-color: #111;
+      color: white;
+      text-align: center;
+      padding: 2rem 1rem;
     }
 
-    label {
-      display: block;
-      margin-top: 1rem;
-      font-weight: bold;
+    header h1 {
+      margin: 0;
+      font-size: 2.2rem;
     }
 
-    input {
-      width: 100%;
-      padding: 0.5rem;
-      margin-top: 0.5rem;
-      border: 1px solid #ccc;
-      border-radius: 4px;
+    .carrusel {
+      background-color: #ddd;
+      height: 250px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      color: #555;
     }
 
-    button {
-      margin-top: 1.5rem;
-      padding: 0.75rem;
-      width: 100%;
+    .renta-opciones {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin: 2rem 0;
+      flex-wrap: wrap;
+    }
+
+    .renta-opciones button {
+      padding: 1rem 2rem;
+      font-size: 1rem;
+      cursor: pointer;
       background-color: #007bff;
       color: white;
       border: none;
-      border-radius: 4px;
-      cursor: pointer;
+      border-radius: 8px;
     }
 
-    button:disabled {
-      background-color: #888;
+    .renta-opciones button:hover {
+      background-color: #0056b3;
     }
 
-    #mensaje {
-      margin-top: 1rem;
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+      padding: 2rem;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    .feature {
+      background-color: #fff;
+      border-radius: 8px;
+      padding: 1rem;
       text-align: center;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    }
+
+    .feature img {
+      width: 50px;
+      height: 50px;
+      margin-bottom: 0.5rem;
+    }
+
+    .reservar {
+      text-align: center;
+      margin: 3rem 0;
+    }
+
+    .reservar a {
+      background-color: #28a745;
+      padding: 1rem 2rem;
+      color: white;
       font-weight: bold;
+      border-radius: 8px;
+      text-decoration: none;
     }
 
-    .disponible {
-      color: green;
-    }
-
-    .no-disponible {
-      color: red;
+    .reservar a:hover {
+      background-color: #218838;
     }
   </style>
 </head>
 <body>
-  <h1>Reservá tu turno</h1>
 
-  <form id="reservaForm">
-    <label for="fecha">Fecha:</label>
-    <input type="date" id="fecha" name="fecha" required>
+  <header>
+    <h1>ESPACIO MULTIUSOS 5 y 10</h1>
+  </header>
 
-    <label for="hora">Hora:</label>
-    <input type="time" id="hora" name="hora" required>
+  <div class="carrusel">
+    Carrusel de imágenes (acá podemos ponerlo luego)
+  </div>
 
-    <button type="submit" id="boton">Reservar</button>
-  </form>
+  <section class="renta-opciones">
+    <button>Renta Mensual</button>
+    <button>Renta por Hora</button>
+  </section>
 
-  <p id="mensaje"></p>
+  <div class="reservar">
+    <a href="reserva.html">Reservar ahora</a>
+  </div>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js";
-    import {
-      getFirestore,
-      collection,
-      addDoc,
-      getDocs
-    } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore.js";
+  <section class="features">
+    <div class="feature">
+      <img src="assets/img/locker.png" alt="Vestidor hombres">
+      <p>Vestidores hombres</p>
+    </div>
+    <div class="feature">
+      <img src="assets/img/locker.png" alt="Vestidor mujeres">
+      <p>Vestidores mujeres</p>
+    </div>
+    <div class="feature">
+      <img src="assets/img/parking.png" alt="Estacionamiento">
+      <p>Estacionamiento</p>
+    </div>
+    <div class="feature">
+      <img src="assets/img/map.png" alt="Ubicación">
+      <p>Ubicación accesible</p>
+    </div>
+    <div class="feature">
+      <img src="assets/img/area.png" alt="Espacio">
+      <p>100m² de uso múltiple</p>
+    </div>
+    <div class="feature">
+      <img src="assets/img/schedule.png" alt="Horarios">
+      <p>Horarios matutinos y vespertinos</p>
+    </div>
+  </section>
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyDNcfScAnhfHXIzoc0ks9kQ_1bn8gfGmvY",
-      authDomain: "ambitomexreservas.firebaseapp.com",
-      projectId: "ambitomexreservas",
-      storageBucket: "ambitomexreservas.appspot.com",
-      messagingSenderId: "914518869349",
-      appId: "1:914518869349:web:1b85ceca2481cb24e84d8c",
-      measurementId: "G-X6ZXLY5BB4"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-
-    const form = document.getElementById("reservaForm");
-    const mensaje = document.getElementById("mensaje");
-    const boton = document.getElementById("boton");
-
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-
-      const fecha = document.getElementById("fecha").value;
-      const hora = document.getElementById("hora").value;
-
-      if (!fecha || !hora) {
-        mensaje.textContent = "⛔ Ingresá fecha y hora válidas.";
-        mensaje.className = "no-disponible";
-        return;
-      }
-
-      try {
-        const reservasRef = collection(db, "reservas");
-        const querySnapshot = await getDocs(reservasRef);
-
-        let yaReservado = false;
-
-        querySnapshot.forEach((doc) => {
-          const data = doc.data();
-          if (data.fecha === fecha && data.hora === hora) {
-            yaReservado = true;
-          }
-        });
-
-        if (yaReservado) {
-          mensaje.textContent = "⚠️ Ese turno ya está reservado.";
-          mensaje.className = "no-disponible";
-          boton.disabled = true;
-        } else {
-          await addDoc(reservasRef, { fecha, hora });
-          mensaje.textContent = "✅ ¡Turno reservado con éxito!";
-          mensaje.className = "disponible";
-          form.reset();
-          boton.disabled = false;
-        }
-      } catch (error) {
-        console.error("Error al guardar reserva:", error);
-        mensaje.textContent = "❌ Error al guardar la reserva.";
-        mensaje.className = "no-disponible";
-      }
-    });
-  </script>
 </body>
 </html>

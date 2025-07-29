@@ -3,48 +3,83 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Panel Admin - Reservas</title>
+  <title>Reservar Turno - ÁmbitoMex</title>
   <style>
     body {
       font-family: sans-serif;
+      background-color: #f0f0f0;
       padding: 2rem;
-      background-color: #f7f7f7;
+      text-align: center;
+    }
+
+    h1 {
+      margin-bottom: 2rem;
     }
 
     form {
+      background-color: #fff;
       max-width: 400px;
       margin: auto;
-      background-color: #fff;
-      padding: 1.5rem;
-      border-radius: 8px;
+      padding: 2rem;
+      border-radius: 10px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
 
-    input, button {
-      width: 100%;
+    label {
+      display: block;
       margin-top: 1rem;
-      padding: 0.75rem;
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.7rem;
+      margin-top: 0.3rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    button {
+      margin-top: 2rem;
+      padding: 0.8rem;
+      width: 100%;
+      background-color: #007bff;
+      color: white;
+      border: none;
       font-size: 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      background-color: #888;
     }
 
     #mensaje {
       margin-top: 1rem;
-      text-align: center;
       font-weight: bold;
+    }
+
+    .disponible {
+      color: green;
+    }
+
+    .no-disponible {
+      color: red;
     }
   </style>
 </head>
 <body>
-  <h1>Panel de Administración</h1>
+  <h1>Reservá tu Turno</h1>
 
-  <form id="adminForm">
+  <form id="reservaForm">
     <label for="fecha">Fecha:</label>
-    <input type="date" id="fecha" required>
+    <input type="date" id="fecha" required />
 
     <label for="hora">Hora:</label>
-    <input type="time" id="hora" required>
+    <input type="time" id="hora" required />
 
-    <button type="submit">Agregar Reserva</button>
+    <button type="submit" id="boton">Reservar</button>
   </form>
 
   <p id="mensaje"></p>
@@ -54,14 +89,15 @@
     import {
       getFirestore,
       collection,
-      addDoc
+      addDoc,
+      getDocs
     } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyDNcfScAnhfHXIzoc0ks9kQ_1bn8gfGmvY",
       authDomain: "ambitomexreservas.firebaseapp.com",
       projectId: "ambitomexreservas",
-      storageBucket: "ambitomexreservas.firebasestorage.app",
+      storageBucket: "ambitomexreservas.appspot.com",
       messagingSenderId: "914518869349",
       appId: "1:914518869349:web:1b85ceca2481cb24e84d8c",
       measurementId: "G-X6ZXLY5BB4"
@@ -70,8 +106,9 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    const form = document.getElementById("adminForm");
+    const form = document.getElementById("reservaForm");
     const mensaje = document.getElementById("mensaje");
+    const boton = document.getElementById("boton");
 
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -79,20 +116,39 @@
       const hora = document.getElementById("hora").value;
 
       if (!fecha || !hora) {
-        mensaje.textContent = "Por favor completá ambos campos.";
-        mensaje.style.color = "red";
+        mensaje.textContent = "⛔ Ingresá fecha y hora válidas.";
+        mensaje.className = "no-disponible";
         return;
       }
 
       try {
-        await addDoc(collection(db, "reservas"), { fecha, hora });
-        mensaje.textContent = "✅ ¡Reserva agendada correctamente!";
-        mensaje.style.color = "green";
-        form.reset();
+        const reservasRef = collection(db, "reservas");
+        const querySnapshot = await getDocs(reservasRef);
+
+        let yaReservado = false;
+
+        querySnapshot.forEach((doc) => {
+          const data = doc.data();
+          if (data.fecha === fecha && data.hora === hora) {
+            yaReservado = true;
+          }
+        });
+
+        if (yaReservado) {
+          mensaje.textContent = "⚠️ Ese turno ya está reservado.";
+          mensaje.className = "no-disponible";
+          boton.disabled = true;
+        } else {
+          await addDoc(reservasRef, { fecha, hora });
+          mensaje.textContent = "✅ ¡Turno reservado con éxito!";
+          mensaje.className = "disponible";
+          form.reset();
+          boton.disabled = false;
+        }
       } catch (error) {
         console.error("Error al guardar reserva:", error);
-        mensaje.textContent = "❌ Hubo un error al guardar.";
-        mensaje.style.color = "red";
+        mensaje.textContent = "❌ Error al guardar la reserva.";
+        mensaje.className = "no-disponible";
       }
     });
   </script>
