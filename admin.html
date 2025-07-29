@@ -9,27 +9,50 @@
       font-family: sans-serif;
       padding: 2rem;
       background-color: #f7f7f7;
+      text-align: center;
+    }
+
+    h1 {
+      margin-bottom: 2rem;
     }
 
     form {
       max-width: 400px;
       margin: auto;
       background-color: #fff;
-      padding: 1.5rem;
-      border-radius: 8px;
+      padding: 2rem;
+      border-radius: 10px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
 
-    input, button {
-      width: 100%;
+    label {
+      display: block;
       margin-top: 1rem;
-      padding: 0.75rem;
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.7rem;
+      margin-top: 0.3rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    button {
+      margin-top: 2rem;
+      padding: 0.8rem;
+      width: 100%;
+      background-color: #28a745;
+      color: white;
+      border: none;
       font-size: 1rem;
+      border-radius: 6px;
+      cursor: pointer;
     }
 
     #mensaje {
       margin-top: 1rem;
-      text-align: center;
       font-weight: bold;
     }
   </style>
@@ -61,7 +84,7 @@
       apiKey: "AIzaSyDNcfScAnhfHXIzoc0ks9kQ_1bn8gfGmvY",
       authDomain: "ambitomexreservas.firebaseapp.com",
       projectId: "ambitomexreservas",
-      storageBucket: "ambitomexreservas.firebasestorage.app",
+      storageBucket: "ambitomexreservas.appspot.com",
       messagingSenderId: "914518869349",
       appId: "1:914518869349:web:1b85ceca2481cb24e84d8c",
       measurementId: "G-X6ZXLY5BB4"
@@ -79,7 +102,7 @@
       const hora = document.getElementById("hora").value;
 
       if (!fecha || !hora) {
-        mensaje.textContent = "Por favor completá ambos campos.";
+        mensaje.textContent = "⛔ Por favor completá ambos campos.";
         mensaje.style.color = "red";
         return;
       }
