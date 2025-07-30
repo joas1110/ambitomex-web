@@ -2,110 +2,132 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Espacio Multiusos 5 y 10</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- Font Awesome para los íconos -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Segoe UI', sans-serif; background-color: #fff; color: #111; line-height: 1.6; }
-    header { background-color: #111; color: white; text-align: center; padding: 2rem 1rem; font-size: 1.8rem; letter-spacing: 1px; }
-    section { padding: 2rem 1.5rem; text-align: center; }
-    .carrusel { background: #e0e0e0; padding: 5rem; font-size: 1.2rem; color: #555; }
-    .botones-renta button {
-      margin: 0.5rem;
-      padding: 0.75rem 1.5rem;
-      font-size: 1rem;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-    .botones-renta .mensual { background-color: #007bff; color: white; }
-    .botones-renta .hora { background-color: #007bff; color: white; }
-    .botones-renta button:hover { transform: scale(1.05); }
-    .reservar-btn {
-      margin-top: 1rem;
-      background-color: #28a745;
-      color: white;
-      padding: 0.75rem 2rem;
-      font-size: 1rem;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-    .reservar-btn:hover { transform: scale(1.05); }
-    .features {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 1.5rem;
-      margin-top: 2rem;
-    }
-    .feature-box {
-      background: #f9f9f9;
-      padding: 1rem;
-      width: 180px;
-      border-radius: 12px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    }
-    .feature-box i {
-      font-size: 2rem;
-      margin-bottom: 0.5rem;
-      color: #007bff;
-    }
-    footer {
-      margin-top: 2rem;
-      text-align: center;
-      padding: 1rem;
-      font-size: 0.9rem;
-      background: #eee;
-    }
-    .calendar-section {
-      padding: 2rem 1.5rem;
-      margin-top: 2rem;
-      background-color: #f1f1f1;
-    }
-    .calendar-section iframe {
-      width: 100%;
-      max-width: 600px;
-      height: 400px;
-      border: none;
-    }
-  </style>
+ <!-- FullCalendar CSS -->
+<link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet" />
+<!-- FullCalendar JS -->
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+
 </head>
 <body>
-  <header>ESPACIO MULTIUSOS 5 y 10</header>
+  <header>
+    <h1>ESPACIO MULTIUSOS 5 y 10</h1>
+  </header>
 
-  <section class="carrusel">Carrusel de imágenes (acá podemos ponerlo luego)</section>
+  <!-- Carrusel Placeholder -->
+  <section class="carousel">
+    <p>Carrusel de imágenes (acá podemos ponerlo luego)</p>
+  </section>
 
-  <section>
-    <div class="botones-renta">
-      <button class="mensual">Renta Mensual</button>
-      <button class="hora">Renta por Hora</button>
+  <!-- Features con íconos -->
+  <section class="features">
+    <div class="feature">
+      <i class="fas fa-male"></i>
+      <p>Vestidores hombres</p>
     </div>
-    <button class="reservar-btn" onclick="window.location.href='reservas.html'">Reservar ahora</button>
-  </section>
-
-  <section>
-    <div class="features">
-      <div class="feature-box"><i class="fa-solid fa-person"></i><p>Vestidores hombres</p></div>
-      <div class="feature-box"><i class="fa-solid fa-person-dress"></i><p>Vestidores mujeres</p></div>
-      <div class="feature-box"><i class="fa-solid fa-square-parking"></i><p>Estacionamiento</p></div>
-      <div class="feature-box"><i class="fa-solid fa-location-dot"></i><p>Ubicación accesible</p></div>
-      <div class="feature-box"><i class="fa-solid fa-ruler-combined"></i><p>100m² de uso múltiple</p></div>
-      <div class="feature-box"><i class="fa-solid fa-clock"></i><p>Horarios flexibles</p></div>
+    <div class="feature">
+      <i class="fas fa-female"></i>
+      <p>Vestidores mujeres</p>
+    </div>
+    <div class="feature">
+      <i class="fas fa-parking"></i>
+      <p>Estacionamiento</p>
+    </div>
+    <div class="feature">
+      <i class="fas fa-map-marker-alt"></i>
+      <p>Ubicación accesible</p>
+    </div>
+    <div class="feature">
+      <i class="fas fa-ruler-combined"></i>
+      <p>100m² de uso múltiple</p>
+    </div>
+    <div class="feature">
+      <i class="fas fa-clock"></i>
+      <p>Horarios flexibles</p>
     </div>
   </section>
 
-  <section class="calendar-section">
-    <h2>Reservá tu turno</h2>
-    <p>Revisá el calendario disponible para seleccionar tu fecha.</p>
-    <iframe src="reservas.html"></iframe>
+  <!-- Botones de renta -->
+  <section class="renta">
+    <button class="btn azul">Renta Mensual</button>
+    <button class="btn azul">Renta por Hora</button>
+    <button class="btn verde">Reservar ahora</button>
   </section>
+
+  <!-- Calendario -->
+  <section class="calendario">
+<div id="calendar-title">
+  <i class="fas fa-calendar-alt"></i>
+  <span>Calendario de Reservas</span>
+</div>
+  <div id="calendar"></div>
+</section>
 
   <footer>
-    &copy; 2025 ÁmbitoMex - Todos los derechos reservados.
+    <p>© 2025 ÁmbitoMex - Todos los derechos reservados.</p>
   </footer>
+  <script>
+ document.addEventListener('DOMContentLoaded', function () {
+  const calendarEl = document.getElementById('calendar');
+
+  const calendar = new FullCalendar.Calendar(calendarEl, {
+    initialView: 'dayGridMonth',
+    locale: 'es',
+    headerToolbar: {
+      left: 'prev,next today',
+      center: 'title',
+      right: ''
+    },
+    datesSet: function(info) {
+      marcarDiasEstado(info.view.currentStart, info.view.currentEnd);
+    }
+  });
+
+  calendar.render();
+});
+
+// Simulación de días ocupados (fechas en formato YYYY-MM-DD)
+const diasOcupados = [
+  "2025-07-05", "2025-07-12", "2025-07-19"
+];
+
+// Función para marcar los días con ✓ o ❌
+function marcarDiasEstado(fechaInicio, fechaFin) {
+  const celdas = document.querySelectorAll(".fc-daygrid-day");
+  
+  celdas.forEach(celda => {
+    const fechaStr = celda.getAttribute("data-date");
+    const dayCell = celda.querySelector(".fc-daygrid-day-frame");
+
+    if (dayCell && fechaStr) {
+      // Limpiar íconos anteriores si ya hay uno
+      const existente = dayCell.querySelector(".estado");
+      if (existente) {
+        existente.remove();
+      }
+
+      // Crear nuevo icono según estado
+      const span = document.createElement("span");
+      span.classList.add("estado");
+
+      if (diasOcupados.includes(fechaStr)) {
+        span.textContent = "❌";
+        span.classList.add("ocupado");
+      } else {
+        span.textContent = "✓";
+        span.classList.add("disponible");
+      }
+
+      dayCell.appendChild(span);
+    }
+  });
+}
+
+</script>
+
 </body>
 </html>
