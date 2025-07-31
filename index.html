@@ -5,129 +5,118 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Espacio Multiusos 5 y 10</title>
   <link rel="stylesheet" href="style.css" />
+
   <!-- Font Awesome para los íconos -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
- <!-- FullCalendar CSS -->
-<link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet" />
-<!-- FullCalendar JS -->
-<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
-
+  <!-- FullCalendar CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet" />
 </head>
 <body>
   <header>
     <h1>ESPACIO MULTIUSOS 5 y 10</h1>
   </header>
 
-  <!-- Carrusel Placeholder -->
-  <section class="carousel">
-    <p>Carrusel de imágenes (acá podemos ponerlo luego)</p>
+  <!-- 🖼️ Carrusel -->
+  <section class="carrusel-container">
+    <button class="carrusel-nav prev">&#10094;</button>
+
+    <img src="assets/img/slide1.jpg" class="carrusel-slide active" />
+    <img src="assets/img/slide2.jpg" class="carrusel-slide" />
+    <img src="assets/img/slide3.jpg" class="carrusel-slide" />
+
+    <button class="carrusel-nav next">&#10095;</button>
   </section>
 
-  <!-- Features con íconos -->
+  <!-- ⭐ Features -->
   <section class="features">
-    <div class="feature">
-      <i class="fas fa-male"></i>
-      <p>Vestidores hombres</p>
-    </div>
-    <div class="feature">
-      <i class="fas fa-female"></i>
-      <p>Vestidores mujeres</p>
-    </div>
-    <div class="feature">
-      <i class="fas fa-parking"></i>
-      <p>Estacionamiento</p>
-    </div>
-    <div class="feature">
-      <i class="fas fa-map-marker-alt"></i>
-      <p>Ubicación accesible</p>
-    </div>
-    <div class="feature">
-      <i class="fas fa-ruler-combined"></i>
-      <p>100m² de uso múltiple</p>
-    </div>
-    <div class="feature">
-      <i class="fas fa-clock"></i>
-      <p>Horarios flexibles</p>
-    </div>
+    <div class="feature"><i class="fas fa-male"></i><p>Vestidores hombres</p></div>
+    <div class="feature"><i class="fas fa-female"></i><p>Vestidores mujeres</p></div>
+    <div class="feature"><i class="fas fa-parking"></i><p>Estacionamiento</p></div>
+    <div class="feature"><i class="fas fa-map-marker-alt"></i><p>Ubicación accesible</p></div>
+    <div class="feature"><i class="fas fa-ruler-combined"></i><p>100m² de uso múltiple</p></div>
+    <div class="feature"><i class="fas fa-clock"></i><p>Horarios flexibles</p></div>
   </section>
 
-  <!-- Botones de renta -->
+  <!-- 📅 Botones de renta -->
   <section class="renta">
     <button class="btn azul">Renta Mensual</button>
     <button class="btn azul">Renta por Hora</button>
-    <button class="btn verde">Reservar ahora</button>
+    <button id="btnReservarAhora">Reservar ahora</button>
+
   </section>
 
-  <!-- Calendario -->
+  <!-- 🔐 Login -->
+  <section id="login-section">
+    <h3>Acceso administrador</h3>
+    <input type="email" id="loginEmail" placeholder="Correo electrónico">
+    <input type="password" id="loginPassword" placeholder="Contraseña">
+    <button id="loginBtn">Iniciar sesión</button>
+    <button id="btnLogout" style="display: none;">Cerrar sesión</button>
+  </section>
+
+  <!-- 🗓️ Calendario -->
   <section class="calendario">
-<div id="calendar-title">
-  <i class="fas fa-calendar-alt"></i>
-  <span>Calendario de Reservas</span>
+    <div id="calendar-title">
+      <i class="fas fa-calendar-alt"></i>
+      <span>Calendario de Reservas</span>
+    </div>
+    <div id="calendar"></div>
+  </section>
+
+  <!-- 📋 Tabla Reservas Admin -->
+  <section id="adminReservas" style="display: none; margin-top: 40px;">
+    <h3>📋 Todas las Reservas</h3>
+    <table id="tablaReservas">
+      <thead>
+        <tr>
+          <th>Título</th>
+          <th>Inicio</th>
+          <th>Fin</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Las filas se agregan desde JS -->
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 📌 Popup de Reserva -->
+ <div id="formReservaPopup" class="formulario-reserva" style="display: none;">
+  <h2>Reservar espacio</h2>
+
+  <label for="fecha">Fecha:</label>
+  <input type="date" id="fecha" name="fecha" required>
+
+  <label for="hora">Hora:</label>
+  <select id="hora" name="hora" required>
+    <option value="">Seleccioná una hora</option>
+    <option value="08:00">08:00</option>
+    <option value="09:00">09:00</option>
+    <option value="10:00">10:00</option>
+    <option value="11:00">11:00</option>
+    <option value="12:00">12:00</option>
+    <option value="13:00">13:00</option>
+    <option value="14:00">14:00</option>
+    <option value="15:00">15:00</option>
+    <option value="16:00">16:00</option>
+    <option value="17:00">17:00</option>
+    <option value="18:00">18:00</option>
+  </select>
+
+  <label for="nombre">Nombre:</label>
+  <input type="text" id="titulo" name="titulo" placeholder="Nombre de la reserva" required>
+
+<button id="btnReservar">Confirmar Reserva</button>
 </div>
-  <div id="calendar"></div>
-</section>
 
   <footer>
-    <p>© 2025 ÁmbitoMex - Todos los derechos reservados.</p>
+    <p>© 2025 ESPACIO MULTIUSOS - Todos los derechos reservados.</p>
   </footer>
-  <script>
- document.addEventListener('DOMContentLoaded', function () {
-  const calendarEl = document.getElementById('calendar');
 
-  const calendar = new FullCalendar.Calendar(calendarEl, {
-    initialView: 'dayGridMonth',
-    locale: 'es',
-    headerToolbar: {
-      left: 'prev,next today',
-      center: 'title',
-      right: ''
-    },
-    datesSet: function(info) {
-      marcarDiasEstado(info.view.currentStart, info.view.currentEnd);
-    }
-  });
+  <!-- FullCalendar -->
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
 
-  calendar.render();
-});
-
-// Simulación de días ocupados (fechas en formato YYYY-MM-DD)
-const diasOcupados = [
-  "2025-07-05", "2025-07-12", "2025-07-19"
-];
-
-// Función para marcar los días con ✓ o ❌
-function marcarDiasEstado(fechaInicio, fechaFin) {
-  const celdas = document.querySelectorAll(".fc-daygrid-day");
-  
-  celdas.forEach(celda => {
-    const fechaStr = celda.getAttribute("data-date");
-    const dayCell = celda.querySelector(".fc-daygrid-day-frame");
-
-    if (dayCell && fechaStr) {
-      // Limpiar íconos anteriores si ya hay uno
-      const existente = dayCell.querySelector(".estado");
-      if (existente) {
-        existente.remove();
-      }
-
-      // Crear nuevo icono según estado
-      const span = document.createElement("span");
-      span.classList.add("estado");
-
-      if (diasOcupados.includes(fechaStr)) {
-        span.textContent = "❌";
-        span.classList.add("ocupado");
-      } else {
-        span.textContent = "✓";
-        span.classList.add("disponible");
-      }
-
-      dayCell.appendChild(span);
-    }
-  });
-}
-
-</script>
-
+  <!-- Script principal -->
+  <script type="module" src="script.js"></script>
 </body>
 </html>

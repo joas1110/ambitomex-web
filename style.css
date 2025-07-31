@@ -1,11 +1,12 @@
-/* Reset */
+
+/* ==== RESET ==== */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* Base */
+/* ==== BASE ==== */
 body {
   font-family: 'Inter', sans-serif;
   background-color: #f4f6f8;
@@ -13,29 +14,63 @@ body {
   line-height: 1.6;
 }
 
-/* Header */
+/* ==== HEADER ==== */
 header {
   background: linear-gradient(135deg, #1565c0, #90caf9);
   color: #fff;
   padding: 3rem 1rem;
   text-align: center;
 }
-
 header h1 {
   font-size: 2.2rem;
   letter-spacing: 1px;
 }
 
-/* Carrusel */
-.carousel {
-  padding: 3rem 1rem;
-  text-align: center;
-  background-color: #e3f2fd;
-  font-style: italic;
-  color: #444;
+/* ==== CARRUSEL ==== */
+.carrusel-container {
+  position: relative;
+  max-width: 800px;
+  margin: 40px auto;
+  overflow: hidden;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.carrusel-slide {
+  display: none;
+  max-width: 100%;
+  max-height: 350px;
+  object-fit: cover;
+  border-radius: 12px;
+  transition: opacity 0.5s ease-in-out;
 }
 
-/* Features */
+.carrusel-slide.active {
+  display: block;
+}
+
+.carrusel-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(255, 255, 255, 0.8);
+  border: none;
+  font-size: 30px;
+  cursor: pointer;
+  z-index: 10;
+  padding: 8px 12px;
+  border-radius: 50%;
+}
+.carrusel-nav:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+.carrusel-nav.prev { left: 10px; }
+.carrusel-nav.next { right: 10px; }
+
+/* ==== FEATURES ==== */
 .features {
   display: flex;
   flex-wrap: wrap;
@@ -44,7 +79,6 @@ header h1 {
   padding: 3rem 1rem;
   background-color: #fff;
 }
-
 .feature {
   background-color: #f9f9f9;
   border-radius: 1rem;
@@ -54,31 +88,25 @@ header h1 {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s;
 }
-
 .feature:hover {
   transform: translateY(-5px);
 }
-
 .feature i {
   font-size: 2.5rem;
   color: #1e88e5;
   margin-bottom: 0.5rem;
-  display: block;
 }
-
 .feature p {
   font-size: 0.95rem;
-  color: #333;
 }
 
-/* Botones y renta */
+/* ==== BOTONES ==== */
 .renta {
   text-align: center;
   padding: 2rem 1rem;
   background-color: #f1f8e9;
 }
-
-.btn {
+.btn, .btn-verde {
   padding: 0.75rem 1.5rem;
   font-size: 1rem;
   margin: 0.5rem;
@@ -87,35 +115,37 @@ header h1 {
   cursor: pointer;
   transition: background 0.3s ease;
 }
-
 .azul {
   background-color: #2196f3;
   color: white;
 }
-
 .azul:hover {
   background-color: #1976d2;
 }
-
-.verde {
+.verde, .btn-verde {
   background-color: #4caf50;
   color: white;
 }
-
-.verde:hover {
+.verde:hover, .btn-verde:hover {
   background-color: #388e3c;
 }
 
-/* Footer */
-footer {
-  text-align: center;
-  background-color: #eceff1;
-  color: #555;
-  padding: 1rem;
-  font-size: 0.9rem;
+/* ==== FORMULARIO ==== */
+.formulario-reserva {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 999;
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  max-width: 400px;
+  width: 90%;
 }
 
-/* Calendario */
+/* ==== CALENDARIO ==== */
 .calendario {
   padding: 3rem 1rem;
   text-align: center;
@@ -123,7 +153,6 @@ footer {
   font-style: italic;
   color: #555;
 }
-
 #calendar {
   max-width: 700px;
   margin: 0 auto;
@@ -131,10 +160,8 @@ footer {
   padding: 1.5rem;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  font-family: 'Inter', sans-serif;
   font-size: 0.9rem;
 }
-
 #calendar-title {
   display: flex;
   align-items: center;
@@ -145,105 +172,239 @@ footer {
   font-weight: bold;
   color: #444;
 }
-
 #calendar-title i {
   color: #2196f3;
   font-size: 2rem;
 }
-
-/* FullCalendar custom */
-.fc-toolbar-title {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: #333;
-}
-
-.fc-button {
+.fc-button, .fc-button.fc-today-button {
   background-color: #1e88e5 !important;
   border: none !important;
   border-radius: 6px !important;
   padding: 0.5rem 1rem !important;
+  color: white !important;
 }
-
 .fc-button:hover {
   background-color: #1565c0 !important;
 }
 
-.fc-button:disabled {
-  background-color: #bbb !important;
-}
-
-.fc-button.fc-today-button {
-  background-color: #4caf50;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  padding: 0.5rem 1rem;
-  transition: background 0.3s;
-}
-
-.fc-button.fc-today-button:hover {
-  background-color: #388e3c;
-}
-
-.fc .fc-daygrid-day-number {
-  color: #333;
-  font-weight: 500;
-  position: relative;
-  z-index: 2;
-}
-
-.fc-daygrid-day-frame {
-  position: relative;
-}
-
-.fc-daygrid-day-frame span {
-  position: absolute;
-  top: 2px;
-  right: 5px;
-  font-size: 1rem;
-}
-
-.fc-daygrid-day:hover {
-  background-color: #e3f2fd;
-  cursor: pointer;
-}
-
-.fc-event {
-  background-color: #2196f3;
-  color: white;
-  border: none;
-  font-size: 0.9rem;
-  font-weight: 600;
-  padding: 2px 4px;
-  border-radius: 4px;
-}
-
-/* Marcas de estado */
+/* ==== ESTADO ==== */
 .estado {
   position: absolute;
   top: 2px;
-  left: 4px; /* antes estaba right: 5px */
+  left: 4px;
   font-size: 1rem;
   font-weight: bold;
   z-index: 1;
 }
+.estado.disponible { color: #2e7d32; }
+.estado.ocupado { color: #c62828; }
 
-.estado.disponible {
-  color: #2e7d32;
+/* ==== ADMIN TABLE ==== */
+#adminReservas {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.05);
+}
+#tablaReservas {
+  width: 100%;
+  border-collapse: collapse;
+}
+#tablaReservas thead {
+  background-color: #4caf50;
+  color: white;
+}
+#tablaReservas th, #tablaReservas td {
+  padding: 12px 16px;
+  border: 1px solid #ddd;
+  text-align: center;
 }
 
-.estado.ocupado {
-  color: #c62828;
+/* ==== LOGOUT ==== */
+#btnLogout {
+  display: block;
+  margin: 1rem auto;
+  padding: 10px 20px;
+  font-weight: bold;
+  background-color: #e53935;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
 }
 
-/* Responsive */
+/* ==== FOOTER ==== */
+footer {
+  text-align: center;
+  background-color: #eceff1;
+  color: #555;
+  padding: 1rem;
+  font-size: 0.9rem;
+}
+
+/* ==== RESPONSIVE ==== */
 @media (max-width: 768px) {
+  .features {
+    flex-direction: column;
+    align-items: center;
+  }
   .fc .fc-daygrid-day-number {
     font-size: 0.85rem;
   }
-
   .fc .fc-toolbar-title {
     font-size: 1rem;
   }
+}
+
+/* ============================= */
+/* 🔧 RESPONSIVE FINAL 🔧       */
+/* ============================= */
+
+@media (max-width: 768px) {
+  header h1 {
+    font-size: 1.6rem;
+    padding: 0 1rem;
+  }
+
+  .features {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .feature {
+    width: 80%;
+    margin-bottom: 1rem;
+  }
+
+  .btn {
+    width: 80%;
+    font-size: 1rem;
+  }
+
+  .carrusel-container {
+    width: 95%;
+    height: auto;
+  }
+
+  .carrusel-slide img {
+    height: auto;
+    max-height: 250px;
+  }
+
+  .carrusel-nav {
+    font-size: 1.5rem;
+    padding: 6px;
+    top: 45%;
+    left: 10px;
+    right: 10px;
+  }
+
+  .carrusel-nav.prev {
+    left: 5px;
+  }
+
+  .carrusel-nav.next {
+    right: 5px;
+  }
+
+  #calendar {
+    width: 95%;
+    padding: 1rem;
+    font-size: 0.8rem;
+  }
+
+  #calendar-title {
+    font-size: 1.2rem;
+  }
+
+  .formulario-reserva {
+    padding: 1.5rem;
+    width: 95%;
+  }
+
+  #adminReservas {
+    padding: 1rem;
+  }
+
+  #tablaReservas th, #tablaReservas td {
+    padding: 8px;
+    font-size: 0.85rem;
+  }
+}
+
+.formulario-reserva {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 999;
+  background: white;
+  padding: 2rem;
+  border-radius: 15px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  max-width: 400px;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.formulario-reserva h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.formulario-reserva label {
+  font-weight: 600;
+  color: #555;
+}
+
+.formulario-reserva input,
+.formulario-reserva select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  width: 100%;
+}
+
+.formulario-reserva button {
+  margin-top: 1rem;
+  font-weight: bold;
+}
+
+#btnReservarAhora {
+  background-color: #4caf50; /* Verde agradable */
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#btnReservarAhora:hover {
+  background-color: #388e3c; /* Verde más oscuro al pasar el mouse */
+}
+
+.btn-verde {
+  background-color: #28a745;
+  color: white;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  text-decoration: none;
+  display: inline-block;
+  margin-top: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.btn-verde:hover {
+  background-color: #218838;
 }
