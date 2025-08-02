@@ -1,6 +1,13 @@
 // 🔐 IMPORTS
 import { db } from "./firebase-config.js";
-import { collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+import {
+  collection,
+  addDoc,
+  getDocs,
+  deleteDoc,
+  doc,
+  updateDoc
+} from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
 import { auth } from "./firebase-config.js";
 import {
   signInWithEmailAndPassword,
@@ -8,29 +15,27 @@ import {
   onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
 
-document.addEventListener('DOMContentLoaded', function () {
-  // 🗓️ CALENDARIO
-  const calendarEl = document.getElementById('calendar');
-
+document.addEventListener("DOMContentLoaded", function () {
+  const calendarEl = document.getElementById("calendar");
   const calendar = new FullCalendar.Calendar(calendarEl, {
-    initialView: 'dayGridMonth',
+    initialView: "timeGridWeek",
     headerToolbar: {
-      left: 'prev,next today',
-      center: 'title',
-      right: 'dayGridMonth,timeGridWeek,timeGridDay'
+      left: "prev,next today",
+      center: "title",
+      right: "dayGridMonth,timeGridWeek,timeGridDay"
     },
-    locale: 'es',
+    locale: "es",
     selectable: true,
     navLinks: true,
     nowIndicator: true,
     editable: false,
-    height: 'auto',
-    slotMinTime: '08:00:00',
-    slotMaxTime: '22:00:00',
-    slotDuration: '01:00:00',
+    height: "auto",
+    slotMinTime: "08:00:00",
+    slotMaxTime: "22:00:00",
+    slotDuration: "01:00:00",
     slotLabelFormat: {
-      hour: '2-digit',
-      minute: '2-digit',
+      hour: "2-digit",
+      minute: "2-digit",
       hour12: false
     },
     events: async (fetchInfo, successCallback, failureCallback) => {
@@ -41,72 +46,68 @@ document.addEventListener('DOMContentLoaded', function () {
         console.error("Error cargando eventos:", error);
         failureCallback(error);
       }
-    },
-    dayCellDidMount: function (info) {
-      const fecha = info.date.toISOString().split('T')[0];
-      const ocupado = ['2025-07-04', '2025-07-11', '2025-07-18'];
-
-      const icono = document.createElement('span');
-      icono.classList.add('estado');
-      icono.innerHTML = ocupado.includes(fecha) ? '' : '';
-      icono.classList.add(ocupado.includes(fecha) ? 'ocupado' : 'disponible');
-      info.el.appendChild(icono);
     }
   });
-
   calendar.render();
 
-  // 📅 FORMULARIO DE RESERVA
   const btnAbrirForm = document.getElementById("btnReservarAhora");
   const form = document.getElementById("formReservaPopup");
-  const btnReservar = document.getElementById("btnReservar");
+  const btnOxxo = document.getElementById("btnOxxo");
+  const btnMP = document.getElementById("btnMP");
 
-  if (btnAbrirForm && form && btnReservar) {
+  if (btnAbrirForm && form) {
     btnAbrirForm.addEventListener("click", () => {
       form.style.display = "block";
     });
+  }
 
-    btnReservar.addEventListener("click", async () => {
-      const fecha = document.getElementById("fecha").value;
-      const hora = document.getElementById("hora").value;
-      const titulo = document.getElementById("titulo").value;
+  if (btnOxxo)
+    btnOxxo.addEventListener("click", () => procesarReserva("OXXO"));
+  if (btnMP)
+    btnMP.addEventListener("click", () => procesarReserva("MercadoPago"));
 
-      if (!fecha || !hora || !titulo) {
-        alert("⚠️ Completá todos los campos.");
-        return;
-      }
+  async function procesarReserva(metodoPago) {
+    const fecha = document.getElementById("fecha").value;
+    const hora = document.getElementById("hora").value;
+    const titulo = document.getElementById("titulo").value;
+    const acepta = document.getElementById("aceptaPrivacidad").checked;
 
-      const start = `${fecha}T${hora}:00`;
-      const endHour = parseInt(hora.split(':')[0]) + 1;
-      const end = `${fecha}T${String(endHour).padStart(2, '0')}:00:00`;
+    if (!acepta) return alert("Debés aceptar el aviso de privacidad.");
+    if (!fecha || !hora || !titulo) return alert("Completá todos los campos.");
 
-      const reservasExistentes = await obtenerReservasDesdeFirebase();
-      const yaReservado = reservasExistentes.some((res) => res.start === start);
+    const start = `${fecha}T${hora}:00`;
+    const endHour = parseInt(hora.split(":")[0]) + 1;
+    const end = `${fecha}T${String(endHour).padStart(2, "0")}:00:00`;
 
-      if (yaReservado) {
-        alert("❌ Ese horario ya está reservado. Elegí otro.");
-        return;
-      }
+    const reservasExistentes = await obtenerReservasDesdeFirebase();
+    const yaReservado = reservasExistentes.some((r) => r.start === start);
+    if (yaReservado) return alert("Ese horario ya está reservado.");
 
-      // 🔽 MOSTRAR PAGO
-      form.innerHTML = `
-        <h3>Reserva pendiente de pago</h3>
-        <p>Tu horario está disponible. Para confirmar tu reserva, realizá el pago 👇</p>
-        <a href="https://www.mercadopago.com.ar/checkout" target="_blank" class="btn-verde">Pagar por MercadoPago</a>
-        <p>Una vez realizado el pago, envianos el comprobante por WhatsApp o Instagram y confirmaremos tu reserva manualmente.</p>
-        <button onclick="location.reload()">Cancelar</button>
-      `;
+    await addDoc(collection(db, "reservas"), {
+      title: titulo,
+      start: start,
+      end: end,
+      color: "#4caf50"
     });
-  } // ← ESTA llave era la que te faltaba
-  
 
-  // 🔐 LOGIN
+    form.innerHTML = `
+      <h3>Reserva pendiente</h3>
+      <p>Tu horario fue apartado. Para confirmarla, pagá mediante <strong>${metodoPago}</strong>.</p>
+      ${
+        metodoPago === "OXXO"
+          ? `<p>Te enviaremos los datos de pago por WhatsApp. Luego enviá el comprobante.</p>`
+          : `<a href="https://www.mercadopago.com.ar/checkout" target="_blank" class="btn-verde">Pagar por MercadoPago</a>`
+      }
+      <p>Una vez abonado, envianos el comprobante por WhatsApp para confirmar tu lugar.</p>
+      <button onclick="location.reload()">Cancelar</button>
+    `;
+  }
+
   const loginBtn = document.getElementById("loginBtn");
   if (loginBtn) {
     loginBtn.addEventListener("click", async () => {
       const email = document.getElementById("loginEmail").value;
       const password = document.getElementById("loginPassword").value;
-
       try {
         await signInWithEmailAndPassword(auth, email, password);
         alert("✅ Sesión iniciada correctamente");
@@ -117,101 +118,52 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  // 🔓 LOGOUT + ADMIN
   const btnLogout = document.getElementById("btnLogout");
-
-  onAuthStateChanged(auth, (user) => {
+  onAuthStateChanged(auth, async (user) => {
     if (user) {
       btnLogout.style.display = "inline-block";
-
-      const adminSection = document.getElementById("adminReservas");
-      adminSection.style.display = "block";
+      document.getElementById("adminReservas").style.display = "block";
+      document.getElementById("bloqueoManual").style.display = "block";
 
       const tablaBody = document.querySelector("#tablaReservas tbody");
       tablaBody.innerHTML = "";
 
-      obtenerReservasDesdeFirebase().then((reservas) => {
-        reservas.forEach((reserva) => {
-          const fila = document.createElement("tr");
+      const reservas = await getDocs(collection(db, "reservas"));
+      reservas.forEach((docSnap) => {
+        const reserva = docSnap.data();
+        const fila = document.createElement("tr");
 
-          const celdaTitulo = document.createElement("td");
-          celdaTitulo.textContent = reserva.title;
-
-          const celdaInicio = document.createElement("td");
-          celdaInicio.textContent = reserva.start;
-
-          const celdaFin = document.createElement("td");
-          celdaFin.textContent = reserva.end;
-
-          fila.appendChild(celdaTitulo);
-          fila.appendChild(celdaInicio);
-          fila.appendChild(celdaFin);
-
-          tablaBody.appendChild(fila);
-        });
+        fila.innerHTML = `
+          <td>${reserva.title}</td>
+          <td>${reserva.start}</td>
+          <td>${reserva.end}</td>
+          <td>
+            <button onclick="editarReserva('${docSnap.id}', '${reserva.title}', '${reserva.start}', '${reserva.end}')">✏️</button>
+            <button onclick="eliminarReserva('${docSnap.id}')">🗑️</button>
+          </td>
+        `;
+        tablaBody.appendChild(fila);
       });
-
     } else {
       btnLogout.style.display = "none";
     }
 
     if (btnLogout) {
       btnLogout.addEventListener("click", () => {
-        signOut(auth)
-          .then(() => {
-            alert("🔒 Sesión cerrada correctamente");
-            location.reload();
-          })
-          .catch((error) => {
-            console.error("Error al cerrar sesión:", error);
-            alert("❌ Error al cerrar sesión");
-          });
+        signOut(auth).then(() => location.reload());
       });
     }
   });
-
-  // 🎞️ CARRUSEL
-  let slideIndex = 0;
-  const slides = document.querySelectorAll(".carrusel-slide");
-  const prevBtn = document.querySelector(".carrusel-nav.prev");
-  const nextBtn = document.querySelector(".carrusel-nav.next");
-
-  function showSlide(index) {
-    slides.forEach((slide, i) => {
-      slide.classList.toggle("active", i === index);
-    });
-  }
-
-  if (slides.length > 0) {
-    showSlide(slideIndex);
-
-    if (prevBtn && nextBtn) {
-      prevBtn.addEventListener("click", () => {
-        slideIndex = (slideIndex - 1 + slides.length) % slides.length;
-        showSlide(slideIndex);
-      });
-
-      nextBtn.addEventListener("click", () => {
-        slideIndex = (slideIndex + 1) % slides.length;
-        showSlide(slideIndex);
-      });
-
-      setInterval(() => {
-        slideIndex = (slideIndex + 1) % slides.length;
-        showSlide(slideIndex);
-      }, 5000);
-    }
-  }
 });
 
 // 🔁 FUNCIONES FIRESTORE
 async function obtenerReservasDesdeFirebase() {
   const snapshot = await getDocs(collection(db, "reservas"));
   const reservas = [];
-
   snapshot.forEach((doc) => {
     const data = doc.data();
     reservas.push({
+      id: doc.id,
       title: data.title,
       start: data.start,
       end: data.end,
@@ -219,11 +171,40 @@ async function obtenerReservasDesdeFirebase() {
       borderColor: data.color || "#2196f3"
     });
   });
-
   return reservas;
 }
 
-function mostrarFormularioReserva() {
-  const popup = document.getElementById('formReservaPopup');
-  if (popup) popup.style.display = 'block';
-}
+window.eliminarReserva = async function (id) {
+  if (confirm("¿Eliminar esta reserva?")) {
+    await deleteDoc(doc(db, "reservas", id));
+    alert("Reserva eliminada.");
+    location.reload();
+  }
+};
+
+window.editarReserva = async function (id, title, start, end) {
+  const nuevoTitulo = prompt("Editar título de la reserva:", title);
+  if (nuevoTitulo) {
+    await updateDoc(doc(db, "reservas", id), { title: nuevoTitulo });
+    alert("Reserva actualizada.");
+    location.reload();
+  }
+};
+
+window.bloquearHorario = async function () {
+  const datetime = document.getElementById("bloqueoFechaHora").value;
+  if (!datetime) return alert("Seleccioná un horario.");
+
+  const endHour = parseInt(datetime.split("T")[1].split(":")[0]) + 1;
+  const end = `${datetime.split("T")[0]}T${String(endHour).padStart(2, "0")}:00:00`;
+
+  await addDoc(collection(db, "reservas"), {
+    title: "Bloqueado",
+    start: datetime,
+    end: end,
+    color: "#f44336"
+  });
+
+  alert("Horario bloqueado correctamente.");
+  location.reload();
+};

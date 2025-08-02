@@ -6,28 +6,28 @@
   <title>Espacio Multiusos 5 y 10</title>
   <link rel="stylesheet" href="style.css" />
 
-  <!-- Font Awesome para los íconos -->
+  <!-- Font Awesome para íconos -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <!-- FullCalendar CSS -->
+  <!-- FullCalendar -->
   <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet" />
 </head>
 <body>
+
+  <!-- 🧢 Header -->
   <header>
     <h1>ESPACIO MULTIUSOS 5 y 10</h1>
   </header>
 
-  <!-- 🖼️ Carrusel -->
+  <!-- 🖼️ Carrusel de imágenes -->
   <section class="carrusel-container">
     <button class="carrusel-nav prev">&#10094;</button>
-
     <img src="assets/img/slide1.jpg" class="carrusel-slide active" />
     <img src="assets/img/slide2.jpg" class="carrusel-slide" />
     <img src="assets/img/slide3.jpg" class="carrusel-slide" />
-
     <button class="carrusel-nav next">&#10095;</button>
   </section>
 
-  <!-- ⭐ Features -->
+  <!-- ⭐ Características del espacio -->
   <section class="features">
     <div class="feature"><i class="fas fa-male"></i><p>Vestidores hombres</p></div>
     <div class="feature"><i class="fas fa-female"></i><p>Vestidores mujeres</p></div>
@@ -37,15 +37,14 @@
     <div class="feature"><i class="fas fa-clock"></i><p>Horarios flexibles</p></div>
   </section>
 
-  <!-- 📅 Botones de renta -->
+  <!-- 🎯 Botones de acción -->
   <section class="renta">
     <button class="btn azul">Renta Mensual</button>
     <button class="btn azul">Renta por Hora</button>
     <button id="btnReservarAhora">Reservar ahora</button>
-
   </section>
 
-  <!-- 🔐 Login -->
+  <!-- 🔐 Login Administrador -->
   <section id="login-section">
     <h3>Acceso administrador</h3>
     <input type="email" id="loginEmail" placeholder="Correo electrónico">
@@ -54,7 +53,7 @@
     <button id="btnLogout" style="display: none;">Cerrar sesión</button>
   </section>
 
-  <!-- 🗓️ Calendario -->
+  <!-- 📅 Calendario -->
   <section class="calendario">
     <div id="calendar-title">
       <i class="fas fa-calendar-alt"></i>
@@ -63,7 +62,7 @@
     <div id="calendar"></div>
   </section>
 
-  <!-- 📋 Tabla Reservas Admin -->
+  <!-- 📋 Tabla de reservas (admin) -->
   <section id="adminReservas" style="display: none; margin-top: 40px;">
     <h3>📋 Todas las Reservas</h3>
     <table id="tablaReservas">
@@ -75,13 +74,19 @@
         </tr>
       </thead>
       <tbody>
-        <!-- Las filas se agregan desde JS -->
+        <!-- Se llena por JS -->
       </tbody>
     </table>
   </section>
 
-  <!-- 📌 Popup de Reserva -->
- <div id="formReservaPopup" class="formulario-reserva" style="display: none;">
+  <!-- ⛔ Bloqueo manual de horarios -->
+  <section id="bloqueoManual" style="display: none;">
+    <h3>Bloquear horario manualmente</h3>
+    <input type="datetime-local" id="bloqueoFechaHora" />
+    <button onclick="bloquearHorario()">Bloquear</button>
+  </section>
+<!-- 📌 Popup de Reserva -->
+<div id="formReservaPopup" class="formulario-reserva" style="display: none;">
   <h2>Reservar espacio</h2>
 
   <label for="fecha">Fecha:</label>
@@ -106,17 +111,37 @@
   <label for="nombre">Nombre:</label>
   <input type="text" id="titulo" name="titulo" placeholder="Nombre de la reserva" required>
 
-<button id="btnReservar">Confirmar Reserva</button>
+  <!-- ✅ Checkbox obligatorio -->
+  <label>
+    <input type="checkbox" id="aceptaPrivacidad" />
+    Acepto el aviso de privacidad
+  </label>
+
+  <!-- ✅ Botones para OXXO o MercadoPago -->
+  <button id="btnOxxo">Reservar y pagar por OXXO</button>
+  <button id="btnMP" class="btn-verde">Reservar y pagar por MercadoPago</button>
 </div>
 
+  
+  </div>
+
+  <!-- 🔒 Aviso de privacidad -->
+  <section class="privacidad">
+    <h2>Aviso de Privacidad</h2>
+    <p>La información que proporciones será utilizada exclusivamente para gestionar tu reserva y no será compartida con terceros.</p>
+    <p>Podés solicitar la modificación o eliminación de tus datos en cualquier momento.</p>
+  </section>
+
+  <!-- 📞 Footer + WhatsApp -->
   <footer>
     <p>© 2025 ESPACIO MULTIUSOS - Todos los derechos reservados.</p>
+    <a href="https://wa.me/54XXXXXXXXXX" class="btn-whatsapp" target="_blank" title="Chatear por WhatsApp">
+      💬 Reservar por WhatsApp
+    </a>
   </footer>
 
-  <!-- FullCalendar -->
+  <!-- FullCalendar + Script -->
   <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
-
-  <!-- Script principal -->
   <script type="module" src="script.js"></script>
 </body>
 </html>
