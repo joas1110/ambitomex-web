@@ -46,6 +46,38 @@ document.addEventListener("DOMContentLoaded", function () {
         console.error("Error cargando eventos:", error);
         failureCallback(error);
       }
+        // 🖼️ Carrusel de imágenes
+  const slides = document.querySelectorAll(".carrusel-slide");
+  const prevBtn = document.querySelector(".carrusel-nav.prev");
+  const nextBtn = document.querySelector(".carrusel-nav.next");
+  let currentIndex = 0;
+
+  function mostrarSlide(index) {
+    slides.forEach((slide, i) => {
+      slide.classList.remove("active");
+      if (i === index) {
+        slide.classList.add("active");
+      }
+    });
+  }
+
+  if (prevBtn && nextBtn && slides.length > 0) {
+    prevBtn.addEventListener("click", () => {
+      currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+      mostrarSlide(currentIndex);
+    });
+
+    nextBtn.addEventListener("click", () => {
+      currentIndex = (currentIndex + 1) % slides.length;
+      mostrarSlide(currentIndex);
+    });
+
+    // Auto-slide cada 4 segundos
+    setInterval(() => {
+      currentIndex = (currentIndex + 1) % slides.length;
+      mostrarSlide(currentIndex);
+    }, 4000);
+  }
     }
   });
   calendar.render();
